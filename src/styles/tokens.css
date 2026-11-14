@@ -1,0 +1,41 @@
+/*
+ * One black field, off-white drawing, one accent. Orange is under 3:1 on off-white, so nothing
+ * is ever drawn on a light field. Components only use the role tokens below the palette.
+ */
+:root {
+  --black: #0a0a0a;
+  --paper: #f4f1ea;
+  --accent: #ff4d1a;
+
+  --font-display: 'Archivo Black', 'Arial Black', Impact, sans-serif;
+  --font-body: 'Archivo', 'Segoe UI', system-ui, sans-serif;
+
+  /* Type scale: a 1.25 ratio off a 17px body. */
+  --step--1: 0.85rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.33rem;
+  --step-2: 1.66rem;
+  --step-3: clamp(1.9rem, 3.4vw, 2.6rem);
+  --step-4: clamp(2.3rem, 5.2vw, 4.2rem);
+  --step-5: clamp(2.5rem, 9.4vw, 7.5rem);
+
+  --gutter: 32px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  color-scheme: dark;
+  --ground: var(--black);
+  --ink: var(--paper);
+  --dim: #aaa69c;
+  /* Surfaces step away from the ground in tone; there are no rules or shadows. */
+  --surface: #191918;
+  --surface-2: #2a2a28;
+  --focus: var(--accent);
+  /* The grey of a drawing's unimportant parts. Over 3:1 on a surface, so shapes only, never words. */
+  --v-dim: #77736b;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 16px;
+  }
+}

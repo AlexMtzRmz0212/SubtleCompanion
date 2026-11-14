@@ -1,0 +1,196 @@
+.budget {
+  display: grid;
+  gap: 20px;
+  padding: clamp(16px, 3vw, 36px);
+  padding-bottom: 8px;
+}
+
+.budget-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.budget-count {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: var(--step-1);
+}
+
+.budget-count strong {
+  min-width: 1.2ch;
+  color: var(--accent);
+  font: 400 var(--step-5) / 0.8 var(--font-display);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.budget-pool {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 6px;
+  max-width: 640px;
+}
+
+.care {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--accent);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: transform 200ms var(--ease-out);
+}
+
+.care[data-dragging] {
+  z-index: 5;
+  cursor: grabbing;
+  transition: none;
+}
+
+.care[data-spent] {
+  background: none;
+  box-shadow: inset 0 0 0 3px var(--v-dim);
+  cursor: default;
+  touch-action: auto;
+}
+
+.budget-status {
+  min-height: 1.55em;
+  font-weight: 600;
+}
+
+.budget-groups {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px 48px;
+  align-items: start;
+}
+
+@media (min-width: 761px) {
+  .budget-groups {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.budget-groups h2 {
+  margin: 0 0 10px;
+  font: 400 var(--step-1) / 1.1 var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.budget-groups ul {
+  display: grid;
+  gap: 4px;
+}
+
+.thing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  gap: 4px;
+}
+
+.thing-give,
+.thing-take {
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: 600 var(--step-0) / 1.2 var(--font-body);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 140ms var(--ease-out),
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.thing-give {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  min-height: 52px;
+  padding: 8px 14px;
+  text-align: left;
+}
+
+.thing-give:active {
+  transform: scale(0.985);
+}
+
+.thing-take {
+  font-size: var(--step-2);
+  line-height: 1;
+}
+
+.thing-take:active {
+  transform: scale(0.94);
+}
+
+.thing-take:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+.thing-slots {
+  display: flex;
+  gap: 4px;
+}
+
+.slot {
+  width: 22px;
+  height: 22px;
+  box-shadow: inset 0 0 0 3px var(--v-dim);
+  transition: background-color 160ms ease;
+}
+
+.slot[data-full] {
+  background: var(--accent);
+  box-shadow: none;
+}
+
+/* What matters gets bigger slots, and they turn orange-edged when the budget ran out on it. */
+.budget-big .thing-give {
+  min-height: 72px;
+}
+
+.budget-big .slot {
+  width: 30px;
+  height: 30px;
+}
+
+/* Side by side, the two things that matter stand as tall as the six that do not. */
+@media (min-width: 761px) {
+  .budget-big .thing-give {
+    min-height: 164px;
+  }
+  .budget-big .slot {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.budget[data-starved] .budget-big .slot:not([data-full]) {
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .thing-give:hover,
+  .thing-take:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--ground);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thing-give:active,
+  .thing-take:active {
+    transform: none;
+  }
+}

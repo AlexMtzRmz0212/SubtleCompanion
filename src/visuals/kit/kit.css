@@ -1,0 +1,131 @@
+/* One hand for every drawing: flat fills, one line weight, square ends, three tones. */
+
+.v {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ln {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.s-ink {
+  stroke: var(--ink);
+}
+.s-dim {
+  stroke: var(--v-dim);
+}
+.s-point {
+  stroke: var(--accent);
+}
+
+.f-ink {
+  fill: var(--ink);
+}
+.f-dim {
+  fill: var(--v-dim);
+}
+.f-point {
+  fill: var(--accent);
+}
+.f-ground {
+  fill: var(--black);
+}
+
+.lb {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+.lb-l {
+  font-size: 22px;
+}
+.lb-s {
+  font-size: 17px;
+}
+
+/* ---------- The frame around a drawing ---------- */
+
+.figure {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  margin: 0;
+  background: var(--surface);
+}
+
+.figure-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 20px;
+  align-items: start;
+  padding: 16px 20px 20px;
+}
+
+.figure-foot p {
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+.figure-main .figure-foot p {
+  font-size: var(--step-1);
+  line-height: 1.35;
+}
+
+.figure-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 4px;
+}
+
+.save,
+.figure-origin {
+  display: inline-grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: 600 var(--step--1) / 1 var(--font-body);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 140ms var(--ease-out),
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.save:active {
+  transform: scale(0.97);
+}
+
+.save[data-saved] {
+  background: var(--accent);
+  color: var(--black);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .save:hover,
+  .figure-origin:hover {
+    background: var(--ink);
+    color: var(--ground);
+  }
+}
+
+@media (max-width: 420px) {
+  .figure-foot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .figure-tools {
+    justify-content: start;
+  }
+}

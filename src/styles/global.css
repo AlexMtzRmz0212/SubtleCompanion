@@ -1,0 +1,530 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 var(--step-0) / 1.55 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+h3,
+p,
+ol,
+ul {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+a {
+  color: inherit;
+}
+
+cite {
+  font-style: italic;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--black);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+main:focus {
+  outline: none;
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), 1240px);
+  margin-inline: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: 8px;
+  z-index: 10;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: var(--black);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.4;
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+
+/* ---------- Buttons: flat, square, one fill each ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 0;
+  font: 600 var(--step-0) / 1.2 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 140ms var(--ease-out),
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+.button-accent {
+  background: var(--accent);
+  color: var(--black);
+}
+
+.button-ink {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.button-quiet {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button-accent:hover {
+    background: var(--ink);
+    color: var(--ground);
+  }
+  .button-ink:hover:not(:disabled),
+  .button-quiet:hover {
+    background: var(--accent);
+    color: var(--black);
+  }
+}
+
+/* ---------- Top bar ---------- */
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 16px;
+}
+
+.wordmark {
+  font: 400 var(--step-1) / 1 var(--font-display);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  padding-block: 12px;
+}
+
+.wordmark span {
+  font: 400 var(--step-0) / 1 var(--font-body);
+  letter-spacing: 0;
+  color: var(--dim);
+}
+
+.bar nav {
+  display: flex;
+  gap: 4px;
+}
+
+.bar nav a {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.bar nav a[aria-current='page'] {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bar nav a:hover:not([aria-current]) {
+    background: var(--surface-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .wordmark span {
+    display: none;
+  }
+}
+
+/* ---------- Home: the cover ---------- */
+
+.hero {
+  padding-block: clamp(32px, 7vw, 96px) clamp(56px, 8vw, 112px);
+}
+
+.hero h1 {
+  font-size: var(--step-5);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.hero-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px 64px;
+  align-items: end;
+  margin-top: clamp(32px, 5vw, 64px);
+}
+
+.hero-progress {
+  display: grid;
+  gap: 24px;
+  justify-items: start;
+}
+
+.progress {
+  width: 100%;
+}
+
+.progress-blocks {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 6px;
+}
+
+.progress-blocks span {
+  height: 36px;
+  background: var(--surface-2);
+  transition: background-color 240ms ease;
+}
+
+.progress-blocks span[data-read] {
+  background: var(--accent);
+}
+
+.progress-count {
+  margin-top: 12px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-count strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: var(--step-3);
+  margin-bottom: 24px;
+}
+
+.chapter-list {
+  display: grid;
+  gap: 4px;
+}
+
+.chapter-row {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 5fr) minmax(0, 6fr) 7.5rem;
+  gap: 8px 24px;
+  align-items: baseline;
+  padding: 22px 24px;
+  background: var(--surface);
+  text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.chapter-row-n,
+.chapter-row-title {
+  font: 400 var(--step-3) / 1.05 var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.chapter-row-n {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.chapter-row-line,
+.chapter-row-state {
+  color: var(--dim);
+}
+
+.chapter-row-state {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.chapter-row:active {
+  background: var(--surface-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .chapter-row:hover,
+  .chapter-row:hover * {
+    background: var(--accent);
+    color: var(--black);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-foot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .chapter-row {
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    padding: 18px 16px;
+  }
+  .chapter-row-line,
+  .chapter-row-state {
+    grid-column: 2;
+    text-align: left;
+  }
+}
+
+/* ---------- Chapter and saved pages: a wall of drawings ---------- */
+
+.chapter {
+  display: grid;
+  gap: 4px;
+  padding-block: clamp(24px, 5vw, 56px) 96px;
+}
+
+.chapter-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px 32px;
+  justify-items: start;
+  margin-bottom: clamp(24px, 4vw, 44px);
+}
+
+.chapter-title {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.chapter-head h1 {
+  font-size: var(--step-3);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  overflow-wrap: break-word;
+}
+
+.chapter-head .lede {
+  max-width: 44ch;
+}
+
+.numeral {
+  display: grid;
+  place-items: center;
+  min-width: 1.5em;
+  height: 1.5em;
+  padding: 0 0.3em;
+  background: var(--accent);
+  color: var(--black);
+  font: 400 var(--step-4) / 1 var(--font-display);
+}
+
+@media (min-width: 761px) {
+  .chapter-head {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+  }
+  .chapter-head h1 {
+    font-size: var(--step-4);
+  }
+  .chapter-head > .button {
+    align-self: end;
+  }
+  .chapter-title:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Small drawings sit three to a row; a short last row stretches so the wall has no holes. */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.figures > * {
+  grid-column: span 6;
+}
+
+@media (min-width: 621px) and (max-width: 980px) {
+  .figures > * {
+    grid-column: span 3;
+  }
+  .figures > :last-child:nth-child(odd) {
+    grid-column: span 6;
+  }
+}
+
+@media (min-width: 981px) {
+  .figures > * {
+    grid-column: span 2;
+  }
+  .figures > :only-child,
+  .figures > :first-child:nth-last-child(2),
+  .figures > :first-child:nth-last-child(2) ~ *,
+  .figures > :first-child:nth-last-child(4),
+  .figures > :first-child:nth-last-child(4) ~ *,
+  .figures > :first-child:nth-last-child(5) ~ :nth-child(n + 4) {
+    grid-column: span 3;
+  }
+}
+
+.empty {
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+  padding: 32px;
+  background: var(--surface);
+}
+
+.empty h2 {
+  font-size: var(--step-2);
+}
+
+.pager {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4px;
+  margin-top: 44px;
+}
+
+.pager a {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 20px;
+  background: var(--ink);
+  color: var(--ground);
+  text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.pager a:last-child {
+  text-align: right;
+}
+
+.pager span {
+  font-size: var(--step--1);
+}
+
+.pager strong {
+  font: 400 var(--step-1) / 1.15 var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.pager a:active {
+  background: var(--accent);
+  color: var(--black);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pager a:hover {
+    background: var(--accent);
+    color: var(--black);
+  }
+}
+
+@media (max-width: 560px) {
+  .pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pager a:last-child {
+    text-align: left;
+  }
+}
+
+/* ---------- Footer ---------- */
+
+.site-foot {
+  padding-block: 48px 40px;
+  color: var(--dim);
+  font-size: var(--step--1);
+}
+
+.site-foot p {
+  max-width: 72ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .button:active {
+    transform: none;
+  }
+}
