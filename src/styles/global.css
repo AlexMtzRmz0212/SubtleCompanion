@@ -187,13 +187,19 @@ main:focus {
   gap: 4px;
 }
 
-.bar nav a {
+.bar nav a,
+.bar nav button {
   display: grid;
   place-items: center;
   min-height: 44px;
   padding: 0 14px;
-  font-weight: 600;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: 600 var(--step-0) / 1.2 var(--font-body);
   text-decoration: none;
+  cursor: pointer;
   transition:
     background-color 140ms ease,
     color 140ms ease;
@@ -205,7 +211,8 @@ main:focus {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .bar nav a:hover:not([aria-current]) {
+  .bar nav a:hover:not([aria-current]),
+  .bar nav button:hover {
     background: var(--surface-2);
   }
 }
@@ -234,44 +241,6 @@ main:focus {
   gap: 32px 64px;
   align-items: end;
   margin-top: clamp(32px, 5vw, 64px);
-}
-
-.hero-progress {
-  display: grid;
-  gap: 24px;
-  justify-items: start;
-}
-
-.progress {
-  width: 100%;
-}
-
-.progress-blocks {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 6px;
-}
-
-.progress-blocks span {
-  height: 36px;
-  background: var(--surface-2);
-  transition: background-color 240ms ease;
-}
-
-.progress-blocks span[data-read] {
-  background: var(--accent);
-}
-
-.progress-count {
-  margin-top: 12px;
-  color: var(--dim);
-  font-variant-numeric: tabular-nums;
-}
-
-.progress-count strong {
-  color: var(--ink);
-  font-weight: 600;
 }
 
 .section-title {
@@ -345,7 +314,7 @@ main:focus {
   }
 }
 
-/* ---------- Chapter and saved pages: a wall of drawings ---------- */
+/* ---------- Chapter pages: a wall of drawings ---------- */
 
 .chapter {
   display: grid;
@@ -391,17 +360,11 @@ main:focus {
 
 @media (min-width: 761px) {
   .chapter-head {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: start;
   }
   .chapter-head h1 {
     font-size: var(--step-4);
-  }
-  .chapter-head > .button {
-    align-self: end;
-  }
-  .chapter-title:first-child {
-    grid-column: 1 / -1;
   }
 }
 
@@ -502,6 +465,295 @@ main:focus {
   }
   .pager a:last-child {
     text-align: left;
+  }
+}
+
+/* ---------- Owner login ---------- */
+
+.login {
+  width: min(420px, calc(100% - 2 * var(--gutter)));
+  padding: 0;
+  border: 0;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.login::backdrop {
+  background: rgb(0 0 0 / 0.72);
+}
+
+.login form {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+}
+
+.login h2 {
+  font-size: var(--step-2);
+}
+
+.login-field {
+  display: grid;
+  gap: 6px;
+}
+
+.login label,
+.notes label {
+  color: var(--dim);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.login input,
+.notes textarea {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: 400 var(--step-0) / 1.4 var(--font-body);
+}
+
+.login input {
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.login-error {
+  min-height: 1.4em;
+  color: var(--accent);
+  font-size: var(--step--1);
+}
+
+.login-actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* ---------- Owner notes: a panel on the right edge that collapses to a tab ---------- */
+
+:root {
+  --notes-w: 360px;
+}
+
+/* Wide screens give the panel its own column so it never covers the drawings. */
+@media (min-width: 1000px) {
+  .app[data-notes='open'] {
+    padding-right: var(--notes-w);
+  }
+}
+
+.notes {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 5;
+  width: min(var(--notes-w), 100vw);
+  overflow-y: auto;
+  background: var(--surface);
+  transition: transform 240ms var(--ease-out);
+}
+
+.notes[inert] {
+  transform: translateX(100%);
+}
+
+.notes-tab {
+  position: fixed;
+  top: 40%;
+  right: 0;
+  z-index: 5;
+  min-width: 44px;
+  padding: 18px 10px;
+  border: 0;
+  border-radius: 0;
+  background: var(--accent);
+  color: var(--black);
+  font: 600 var(--step-0) / 1 var(--font-body);
+  writing-mode: vertical-rl;
+  cursor: pointer;
+}
+
+.notes-tab[hidden] {
+  display: none;
+}
+
+.notes-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.notes-head h2 {
+  font-size: var(--step-1);
+}
+
+.notes-body {
+  display: grid;
+  gap: 20px;
+  padding: 4px 20px 28px;
+}
+
+/* What the notes are about. It changes as the reader scrolls, so it is the biggest thing in the panel. */
+.notes-context {
+  display: grid;
+  gap: 4px;
+}
+
+.notes-eyebrow {
+  color: var(--dim);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.notes-part {
+  font: 400 var(--step-2) / 1.05 var(--font-display);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.notes-scope {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.notes-field {
+  display: grid;
+  gap: 6px;
+}
+
+.notes textarea {
+  min-height: 6rem;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.notes-field .button {
+  justify-self: start;
+  margin-top: 6px;
+}
+
+.notes-empty {
+  color: var(--dim);
+}
+
+.notes-list {
+  display: grid;
+  gap: 4px;
+}
+
+.note {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--surface-2);
+}
+
+.note textarea {
+  background: var(--surface);
+}
+
+.note-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.note-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--dim);
+  font-size: var(--step--1);
+}
+
+.note-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.note-btn {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: 600 var(--step--1) / 1 var(--font-body);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.note .note-btn {
+  background: var(--surface);
+}
+
+.note-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.note-btn[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--black);
+}
+
+.notes-sub {
+  margin-bottom: 8px;
+  color: var(--dim);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.notes-index {
+  display: grid;
+  gap: 4px;
+}
+
+.notes-jump {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: 600 var(--step--1) / 1.3 var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.notes-jump small {
+  display: block;
+  color: var(--dim);
+  font-weight: 400;
+}
+
+.notes-count {
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .note-btn:hover:not(:disabled),
+  .notes-tab:hover {
+    background: var(--ink);
+    color: var(--ground);
+  }
+  .notes-jump:hover,
+  .notes-jump:hover small,
+  .notes-jump:hover .notes-count {
+    background: var(--accent);
+    color: var(--black);
   }
 }
 

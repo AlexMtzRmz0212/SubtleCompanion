@@ -1,37 +1,40 @@
 import { useLayoutEffect, useRef } from 'react';
 import { ChapterPage } from './components/ChapterPage';
 import { Home } from './components/Home';
-import { SavedView } from './components/SavedView';
+import { NotesPanel } from './components/NotesPanel';
 import { TopBar } from './components/TopBar';
-import { useHashRoute, type Route } from './lib/useHashRoute';
+import { scrollToTarget, useHashRoute, type Route } from './lib/useHashRoute';
+import { useNotesOpen } from './lib/useNotes';
+import { useIsOwner } from './lib/useOwner';
 
 const SITE = 'Subtle Art Companion';
 
 function titleFor(route: Route) {
-  if (route.view === 'chapter') return `${route.chapter.n}. ${route.chapter.title} · ${SITE}`;
-  return route.view === 'saved' ? `Saved · ${SITE}` : SITE;
+  return route.view === 'chapter' ? `${route.chapter.n}. ${route.chapter.title} · ${SITE}` : SITE;
 }
 
 export function App() {
   const route = useHashRoute();
+  const owner = useIsOwner();
+  const notesOpen = useNotesOpen();
   const mainRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
-  const routeKey = route.view === 'chapter' ? route.chapter.id : route.view;
+  const visualId = route.view === 'chapter' ? route.visualId : undefined;
+  const routeKey = route.view === 'chapter' ? `${route.chapter.id}/${visualId ?? ''}` : route.view;
 
   useLayoutEffect(() => {
     document.title = titleFor(route);
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    // A new page starts at its top, with keyboard focus on its content.
-    window.scrollTo(0, 0);
-    mainRef.current?.focus({ preventScroll: true });
+    const first = firstRender.current;
+    firstRender.current = false;
+    // A new page starts at its top, or at the drawing a link points to, with keyboard focus on its content.
+    if (first && !visualId) return;
+    scrollToTarget(visualId ?? '');
+    if (!first) mainRef.current?.focus({ preventScroll: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeKey]);
 
   return (
-    <>
+    <div className="app" data-notes={owner && notesOpen ? 'open' : undefined}>
       <a
         className="skip-link"
         href="#main"
@@ -46,8 +49,6 @@ export function App() {
       <main ref={mainRef} id="main" tabIndex={-1}>
         {route.view === 'chapter' ? (
           <ChapterPage key={route.chapter.id} chapter={route.chapter} />
-        ) : route.view === 'saved' ? (
-          <SavedView />
         ) : (
           <Home />
         )}
@@ -59,6 +60,7 @@ export function App() {
           publisher.
         </p>
       </footer>
-    </>
+      {owner ? <NotesPanel route={route} /> : null}
+    </div>
   );
 }

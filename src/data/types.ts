@@ -10,7 +10,7 @@ export interface VisualProps {
 }
 
 export interface Visual {
-  /** Stable id such as `ch01-loop`. Saved visuals are stored by this id, so never rename one. */
+  /** Stable id such as `ch01-loop`. */
   id: string;
   /** Two to four words. The drawing's accessible title. */
   name: string;

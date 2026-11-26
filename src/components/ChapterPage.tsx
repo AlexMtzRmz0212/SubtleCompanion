@@ -1,20 +1,6 @@
 import { chapters } from '../data/chapters';
 import type { Chapter } from '../data/types';
-import { setRead, useIsRead } from '../lib/useProgress';
 import { Figure } from '../visuals/kit/Figure';
-
-function SeenToggle({ chapterId }: { chapterId: string }) {
-  const seen = useIsRead(chapterId);
-  return seen ? (
-    <button type="button" className="button button-quiet" onClick={() => setRead(chapterId, false)}>
-      Seen. Undo
-    </button>
-  ) : (
-    <button type="button" className="button button-accent" onClick={() => setRead(chapterId, true)}>
-      Mark as seen
-    </button>
-  );
-}
 
 function Pager({ chapter }: { chapter: Chapter }) {
   const i = chapters.findIndex((c) => c.id === chapter.id);
@@ -43,9 +29,9 @@ function Pager({ chapter }: { chapter: Chapter }) {
           </strong>
         </a>
       ) : (
-        <a href="#saved">
+        <a href="#">
           <span>You reached the end</span>
-          <strong>See your saved visuals</strong>
+          <strong>All chapters</strong>
         </a>
       )}
     </nav>
@@ -66,7 +52,6 @@ export function ChapterPage({ chapter }: { chapter: Chapter }) {
           <h1>{chapter.title}</h1>
           <p className="lede">{chapter.oneLiner}</p>
         </div>
-        {main ? <SeenToggle chapterId={chapter.id} /> : null}
       </header>
 
       {main ? (
